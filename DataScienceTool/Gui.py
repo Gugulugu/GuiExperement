@@ -8,14 +8,19 @@ import pandas as pd
 def load_file():
     try:
         dataset = pd.read_csv(textfield.get())
-        messagebox.showinfo("Message", "File has been loaded successfully in")
+        messagebox.showinfo("Message", "File has been loaded successfully")
     except:
-        messagebox.showinfo("Message", "please enter a valid path")
+        messagebox.showinfo("Warning", "please enter a valid path")
 
 
+# first radio button
 def Rem_row_na():
     dataset = pd.read_csv(textfield.get())
-    dataset.dropna()
+    NaFreeDataset = dataset.dropna()
+    try:
+        NaFreeDataset.to_csv(textfield_new_file.get(), index=False)
+    except:
+        messagebox.showinfo("Warning", "please enter a csv file name inside the textfield \n => e.g: example.csv")
 
 
 # execute when button pressed
@@ -44,9 +49,11 @@ textfield = Entry(window, bd=5, width=40)
 RemoveNa_label = Label(window, text="Replace all NA with 0")
 exit_label = Label(window, text="Close Window")
 textfield_label = Label(window, text="Enter Path of File")
+file_name = Label(window, text="Enter Name of new file")
 
 # create Textfield
 textfield = Entry(window, bd=5, width=40)
+textfield_new_file = Entry(window, bd=5, width=40)
 
 # create Buttons
 RemoveNA_button = Button(window, text="Remove", command=button_action)
@@ -61,6 +68,8 @@ exit_button.grid(row=5, column=10)
 textfield_label.grid(row=9, column=1)
 textfield.grid(row=9, column=10)
 Load_in_file.grid(row=9, column=15)
+file_name.grid(row=10, column=1)
+textfield_new_file.grid(row=10, column=10)
 
 # call window and wait for user to enter
 window.mainloop()
